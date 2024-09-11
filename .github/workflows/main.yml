@@ -1,0 +1,27 @@
+name: Counter App CI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check repo
+      uses: actions/checkout@v4
+
+    - name: Node set up
+      uses: actions/setup-node@v4
+      with:
+        node-version: '14'
+
+    - name: install npm
+      run: npm run
+
+    - name: run build
+      run: npm run build
+      
+    
