@@ -18,11 +18,11 @@ pipeline{
       steps{
         withCredentials([sshUserPrivateKey(credentialsId: 'CounterApp', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER' )]){
             sh '''
-              mkdir -p ~/.ssh
-              ssh-keyscan -H 13.127.179.80 >> ~/.ssh/known_hosts
-              scp -i $SSH_KEY -r build/* $SSH_USER@13.127.179.80:/home/ec2-user/CounterApp
-              ssh -i $SSH_KEY $SSH_USER@  'sudo systemctl restart httpd'
               npm run deploy
+              mkdir -p ~/.ssh
+              ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
+              scp -i $SSH_KEY -r build/* $SSH_USER@$SSH_HOST:/home/ec2-user/CounterApp
+              ssh -i $SSH_KEY $SSH_USER@  'sudo systemctl restart httpd'
             '''
         }
       }
