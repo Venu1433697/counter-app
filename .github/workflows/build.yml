@@ -33,3 +33,35 @@ jobs:
       with:
         name: build-artifact
         path: build.tar.gz
+
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps: 
+      - name: Checkout repository
+        uses: actions/Checkout@v4
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifact
+          path: build/
+
+      - name: Deploy via SSH 
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          
+          scp -i ~/.ssh/id_rsa -P ${{ secrets.SSH_PORT }} build/build.tar.gz ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/ec2-user/counter-app
+
+          ssh -i ~/.ssh/id_rsa -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            cd /home/ec2-user/counter-app
+            rm -rf *.html *.js *.css static *.json *.ico
+            tar -xzf build.tar.gz
+            mv build/* .
+            rm -rf build build.tar.gz
+          EOF
