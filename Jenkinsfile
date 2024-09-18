@@ -18,6 +18,7 @@ pipeline{
       steps{
         withCredentials([sshUserPrivateKey(credentialsId: 'counter-app', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER' )]){
             sh '''
+              npm run deploy
               mkdir -p ~/.ssh
               ssh-keyscan -H 13.127.179.80 >> ~/.ssh/known_hosts
               scp -i $SSH_KEY -r build/* $SSH_USER@13.127.179.80:/home/ec2-user/CounterApp
