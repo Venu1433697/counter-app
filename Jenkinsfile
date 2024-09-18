@@ -16,7 +16,7 @@ pipeline{
     }
     stage('Deploy through Jenkins'){
       steps{
-        withCredentials([sshUserPrivateKey(credentialsId: 'counter-app', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER' )]){
+        withCredentials([sshUserPrivateKey(credentialsId: 'CounterApp', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER' )]){
             sh '''
               npm run deploy
               mkdir -p ~/.ssh
