@@ -18,6 +18,8 @@ pipeline{
       steps{
         withCredentials([sshUserPrivateKey(credentialsId: 'CounterApp', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER' )]){
             bat '''
+              git config --global user.email "canikissu687@gmail.com"
+              git config --global user.name "Venu1433697"
               npm run deploy
               mkdir -p ~/.ssh
               ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
