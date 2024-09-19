@@ -19,9 +19,9 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -f -d build --repo https://Venu1433697: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@github.com/Venu1433697/counter-app.git",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
-    "build": "react-scripts --openssl-legacy-provider build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
