@@ -5,19 +5,19 @@ pipeline{
   {
     stage('Install npm'){
       steps{
-        sh 'npm install'    
+        bat 'npm install'    
       }
     }
 
     stage('build the project'){
       steps{
-        sh 'npm run build'
+        bat 'npm run build'
       }
     }
     stage('Deploy through Jenkins'){
       steps{
         withCredentials([sshUserPrivateKey(credentialsId: 'CounterApp', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER' )]){
-            sh '''
+            bat '''
               npm run deploy
               mkdir -p ~/.ssh
               ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
