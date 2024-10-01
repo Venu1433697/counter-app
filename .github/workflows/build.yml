@@ -1,5 +1,6 @@
 name: Counter App CI
 
+
 on:
   push:
     branches: [ "master" ]
